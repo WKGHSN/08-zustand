@@ -9,8 +9,6 @@ import css from "./NotesPage.module.css";
 import NoteList from "@/components/NoteList/NoteList";
 import SearchBox from "@/components/SearchBox/SearchBox";
 import Pagination from "@/components/Pagination/Pagination";
-// import Modal from "@/components/Modal/Modal";
-// import NoteForm from "@/components/NoteForm/NoteForm";
 import Loader from "@/components/Loader/Loader";
 import ErrorMessage from "@/components/ErrorMessage/ErrorMessage";
 import Link from "next/link";
@@ -25,14 +23,12 @@ type FetchNotesResponse = {
 };
 
 type Props = {
-  initialData: FetchNotesResponse;
   tag?: NoteTag;
 };
 
-export default function NotesClient({ initialData, tag }: Props) {
+export default function NotesClient({ tag }: Props) {
   const [page, setPage] = useState(1);
   const [search, setSearch] = useState("");
-  // const [isModalOpen, setIsModalOpen] = useState(false);
 
   const [debouncedSearch] = useDebounce(search, 500);
   const queryClient = useQueryClient();
@@ -46,8 +42,6 @@ export default function NotesClient({ initialData, tag }: Props) {
         search: debouncedSearch,
         tag: tag,
       }),
-    initialData,
-    placeholderData: initialData,
   });
 
   const handleSearchChange = (newSearch: string) => {
@@ -69,7 +63,6 @@ export default function NotesClient({ initialData, tag }: Props) {
             onPageChange={setPage}
           />
         )}
-        {/* <button className={css.button} onClick={() => setIsModalOpen(true)}> */}
         <Link className={css.button} href="/notes/action/create">
           Create note +
         </Link>
@@ -94,12 +87,6 @@ export default function NotesClient({ initialData, tag }: Props) {
       ) : (
         <NoteList notes={notes} />
       )}
-
-      {/* {isModalOpen && (
-        <Modal onClose={() => setIsModalOpen(false)}>
-          <NoteForm onCancel={() => setIsModalOpen(false)} />
-        </Modal>
-      )} */}
     </div>
   );
 }

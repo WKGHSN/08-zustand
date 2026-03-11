@@ -1,3 +1,5 @@
+/* components/TagsMenu/TagsMenu.module.css */
+
 .menuContainer {
   position: relative;
   display: inline-block;
@@ -50,4 +52,17 @@
 .menuLink:hover {
   background-color: #f0f0f0;
   color: #333;
+}
+
+/* Додаємо стиль для активного пункту меню */
+.menuLink.active {
+  background-color: #4a90e2;  /* Синій фон для активного пункту */
+  color: white;                /* Білий текст */
+  font-weight: 500;           /* Напівжирний шрифт */
+}
+
+/* Стиль для активного пункту при ховері */
+.menuLink.active:hover {
+  background-color: #357abd;  /* Темніший синій при наведенні */
+  color: white;
 }
