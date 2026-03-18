@@ -1,35 +1,33 @@
+"use client";
+
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
-import type { NoteTag } from "@/types/note";
+import type { CreateNoteParams } from "@/types/note";
 
-interface NoteDraft {
-  title: string;
-  content: string;
-  tag: NoteTag;
-}
-
-interface NoteStore {
-  draft: NoteDraft;
-  setDraft: (note: Partial<NoteDraft>) => void;
+type DraftStoreProps = {
+  draft: CreateNoteParams;
+  setDraft: (note: CreateNoteParams) => void;
   clearDraft: () => void;
-}
+};
 
-const initialDraft: NoteDraft = {
+const initialDraft: CreateNoteParams = {
   title: "",
   content: "",
   tag: "Todo",
 };
 
-export const useNoteStore = create<NoteStore>()(
+export const useDraftStore = create<DraftStoreProps>()(
   persist(
     (set) => ({
       draft: initialDraft,
-      setDraft: (note) =>
-        set((state) => ({
-          draft: { ...state.draft, ...note },
-        })),
-      clearDraft: () => set({ draft: initialDraft }),
+      setDraft: (note) => set(() => ({ draft: note })),
+      clearDraft: () => set(() => ({ draft: initialDraft })),
     }),
-    { name: "storedNote" }
-  )
+    {
+      name: "note-draft",
+      partialize: (state) => ({ draft: state.draft }),
+    },
+  ),
 );
+
+export default useDraftStore;
